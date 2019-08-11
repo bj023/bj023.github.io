@@ -52,14 +52,14 @@
 </script>
 
   <meta name="description" content="在macOS上搭建Flutter开发环境 一、介绍Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面。Flutter可以与现有的代码一起工作。在全世界，Flutter正在被越来越多的开发者和组织使用，并且Flutter是完全免费、开源的。 二、安装Flutter配置镜像地址123$ vim ~/.bash_profile  打开或者创建用来配置环境变量$">
-<meta name="keywords" content="Flutter,入门">
+<meta name="keywords" content="Flutter">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MAC系统Flutter安装使用">
 <meta property="og:url" content="http://yoursite.com/2019/08/11/flutter-macOS-install-md/index.html">
 <meta property="og:site_name" content="虎牙">
 <meta property="og:description" content="在macOS上搭建Flutter开发环境 一、介绍Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面。Flutter可以与现有的代码一起工作。在全世界，Flutter正在被越来越多的开发者和组织使用，并且Flutter是完全免费、开源的。 二、安装Flutter配置镜像地址123$ vim ~/.bash_profile  打开或者创建用来配置环境变量$">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-11T07:04:43.017Z">
+<meta property="og:updated_time" content="2019-08-11T08:46:26.709Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MAC系统Flutter安装使用">
 <meta name="twitter:description" content="在macOS上搭建Flutter开发环境 一、介绍Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面。Flutter可以与现有的代码一起工作。在全世界，Flutter正在被越来越多的开发者和组织使用，并且Flutter是完全免费、开源的。 二、安装Flutter配置镜像地址123$ vim ~/.bash_profile  打开或者创建用来配置环境变量$">
@@ -173,6 +173,17 @@
       
       
         
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
         <li class="menu-item menu-item-archives">
       
     
@@ -247,7 +258,7 @@
                 
               
 
-              <time title="创建时间：2019-08-11 14:38:11 / 修改时间：15:04:43" itemprop="dateCreated datePublished" datetime="2019-08-11T14:38:11+08:00">2019-08-11</time>
+              <time title="创建时间：2019-08-11 14:38:11 / 修改时间：16:46:26" itemprop="dateCreated datePublished" datetime="2019-08-11T14:38:11+08:00">2019-08-11</time>
             </span>
           
             
@@ -260,7 +271,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flutter/" itemprop="url" rel="index"><span itemprop="name">Flutter</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/跨平台/" itemprop="url" rel="index"><span itemprop="name">跨平台</span></a></span>
 
                 
                 
@@ -300,7 +311,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ flutter doctor</span><br></pre></td></tr></table></figure>
 
 <p>其中[✓]是通过，[✗]是不通过。下面简要解释一下这几条：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、flutter当前分支，版本号，系统环境</span><br><span class="line">2、开发所需要的安卓开发工具链</span><br><span class="line">3、开发需要的iOS开发工具链</span><br><span class="line">4、Android Studio安装情况</span><br><span class="line">5、有没有已连接的可用设备（一般是手机设备）</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">flutter当前分支，版本号，系统环境</span><br><span class="line">开发所需要的安卓开发工具链</span><br><span class="line">开发需要的iOS开发工具链</span><br><span class="line">Android Studio安装情况</span><br><span class="line">有没有已连接的可用设备（一般是手机设备）</span><br></pre></td></tr></table></figure>
 
 <p>一般线上开发肯定需要使用稳定版本的SDK，平时开发中如果想要查看或者切换分支，可以使用：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ flutter channel //查看所有分支和当前分支</span><br><span class="line">$ flutter channel master //切换到master分支</span><br></pre></td></tr></table></figure>
@@ -361,8 +372,6 @@
           <div class="post-tags">
             
               <a href="/tags/Flutter/" rel="tag"># Flutter</a>
-            
-              <a href="/tags/入门/" rel="tag"># 入门</a>
             
           </div>
         
@@ -455,9 +464,7 @@
         
           
         
-          
-        
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">标签</span>
         </a>
       </div>
