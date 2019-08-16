@@ -59,15 +59,15 @@
 <meta property="og:site_name" content="虎牙">
 <meta property="og:description" content="在决定学习一门新技术之前，我们总会拿它与同类技术进行对比，确保不会把宝贵的学习时间浪费在无用的技术上，所以，接下来我们聊聊Flutter框架。 Flutter优点性能强大，流畅 Flutter对比weex和react native相比，性能的强大是有目共睹的。基于dom树渲染原生组件，很难与直接在原生视图上绘图比肩性能，Google作为一个轮子大厂，直接在两个平台上重写了各自的UIKit，对接到平">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/.com//image1.jpg">
-<meta property="og:image" content="http://yoursite.com/.com//image2.jpg">
-<meta property="og:image" content="http://yoursite.com/.com//image3.jpg">
-<meta property="og:image" content="http://yoursite.com/.com//image4.jpg">
+<meta property="og:image" content="http://yoursite.com/flutterFramework/image1.jpg">
+<meta property="og:image" content="http://yoursite.com/flutterFramework/image2.jpg">
+<meta property="og:image" content="http://yoursite.com/flutterFramework/image3.jpg">
+<meta property="og:image" content="http://yoursite.com/flutterFramework/image4.jpg">
 <meta property="og:updated_time" content="2019-08-16T00:25:28.962Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈Flutter框架">
 <meta name="twitter:description" content="在决定学习一门新技术之前，我们总会拿它与同类技术进行对比，确保不会把宝贵的学习时间浪费在无用的技术上，所以，接下来我们聊聊Flutter框架。 Flutter优点性能强大，流畅 Flutter对比weex和react native相比，性能的强大是有目共睹的。基于dom树渲染原生组件，很难与直接在原生视图上绘图比肩性能，Google作为一个轮子大厂，直接在两个平台上重写了各自的UIKit，对接到平">
-<meta name="twitter:image" content="http://yoursite.com/.com//image1.jpg">
+<meta name="twitter:image" content="http://yoursite.com/flutterFramework/image1.jpg">
   <link rel="canonical" href="http://yoursite.com/2019/08/13/flutterFramework/">
 
 
@@ -334,10 +334,10 @@
 <p>虽然google尽可能的让我们通过构造函数定制化Widget，但是也难免有遗漏的。例如，又一次我想修改一个Appbar的高度，居然没有找到关于高度的属性，通过阅读源码发现，高度是写死（const）的。上文已经说过，无法通过生命周期来改变组件属性，自己写Appbar显得非常没必要，毕竟我还是想使用Appbar的各种方便的功能。最后我只能把他的源码全部复制出来，直接修改高度来使用。初学框架，和一些初级开发者是不可能有迅速阅读源码的能力的（作为框架也不应该产生如此问题）。一些定制化的UI的Api设计经常有缺失，好在我已经基本习惯了。除了Appbar这种复杂的组件，自己写一个小组件也并不费事。</p>
 <p>糟糕的资源管理设计 </p>
 <p>这里是最蠢的，Flutter支持动态加载不同分辨率的图片，但是目录设计太鬼畜了。简单的说，Sketch导出的多分辨率资源，几乎不可能直接拖到Flutter里用，极其，极其，麻烦。</p>
-<h2 id="跨平台开发的原理"><a href="#跨平台开发的原理" class="headerlink" title="跨平台开发的原理"></a>跨平台开发的原理</h2><p>Flutter与现有的移动App跨平台开发框架都不一样，Flutter不是使用标准Web技术，而是借助可移植的图形加速渲染引擎、高性能的本地ARM代码，并以此实现跨设备、跨平台的高质量用户体验。<br><img src="/.com//image1.jpg" alt></p>
-<p>由上我们可以得知，使用Flutter开发的跨平台移动App，性能是可以与原生App一模一样的。你以为这样就完了吗？不不不，Flutter框架的能力不止于此！Flutter应用的性能甚至可以比原生App更加优秀，因为Flutter框架针对性能方面进行了优化。<br>传统的Web应用中会有成千上万数量个DOM节点，所以更新的时候会非常琐碎、频繁，使页面加载缓慢，所以现代的Web应用开始使用虚拟DOM技术来提高页面更新的速度，用一个虚拟DOM，而不是直接调用类似.getElementById的方法，只操作JavaScript对象，然后再把更改的部分更新到真实DOM，这样是相当方便的。但是添加了虚拟DOM意味着更多的代码，而且在一个DOM节点相对较少的页面中用虚拟DOM，实际上有可能会更慢。<br><img src="/.com//image2.jpg" alt></p>
-<p>不仅是现代的Web应用，其实目前主流的Android于iOS应用也是大量使用类似虚拟DOM的技术，即虚拟控件，而且得益于移动设备的性能优势，使虚拟DOM这种形式的响应式框架的优点发挥到极致，使得开发者忽略了该模式的缺点。<br><img src="/.com//image3.jpg" alt></p>
-<p>就在平台与开发者满足于这种以硬件性能优势来解决软件框架的性能缺陷时，Flutter横空出世！在Flutter的响应式框架中，控件树中的控件直接通过可移植的图形加速渲染引擎、高性能的本地ARM代码进行绘制，不再需要通过虚拟DOM或虚拟控件、真实DOM或平台控件这些中间对象来绘制。Flutter响应式框架通过“无中间商赚差价”的方式直接利用硬件的所有性能，所以正如前面所说的，Flutter应用的性能比原生App更加优秀。<br><img src="/.com//image4.jpg" alt></p>
+<h2 id="跨平台开发的原理"><a href="#跨平台开发的原理" class="headerlink" title="跨平台开发的原理"></a>跨平台开发的原理</h2><p>Flutter与现有的移动App跨平台开发框架都不一样，Flutter不是使用标准Web技术，而是借助可移植的图形加速渲染引擎、高性能的本地ARM代码，并以此实现跨设备、跨平台的高质量用户体验。<br><img src="/flutterFramework/image1.jpg" alt></p>
+<p>由上我们可以得知，使用Flutter开发的跨平台移动App，性能是可以与原生App一模一样的。你以为这样就完了吗？不不不，Flutter框架的能力不止于此！Flutter应用的性能甚至可以比原生App更加优秀，因为Flutter框架针对性能方面进行了优化。<br>传统的Web应用中会有成千上万数量个DOM节点，所以更新的时候会非常琐碎、频繁，使页面加载缓慢，所以现代的Web应用开始使用虚拟DOM技术来提高页面更新的速度，用一个虚拟DOM，而不是直接调用类似.getElementById的方法，只操作JavaScript对象，然后再把更改的部分更新到真实DOM，这样是相当方便的。但是添加了虚拟DOM意味着更多的代码，而且在一个DOM节点相对较少的页面中用虚拟DOM，实际上有可能会更慢。<br><img src="/flutterFramework/image2.jpg" alt></p>
+<p>不仅是现代的Web应用，其实目前主流的Android于iOS应用也是大量使用类似虚拟DOM的技术，即虚拟控件，而且得益于移动设备的性能优势，使虚拟DOM这种形式的响应式框架的优点发挥到极致，使得开发者忽略了该模式的缺点。<br><img src="/flutterFramework/image3.jpg" alt></p>
+<p>就在平台与开发者满足于这种以硬件性能优势来解决软件框架的性能缺陷时，Flutter横空出世！在Flutter的响应式框架中，控件树中的控件直接通过可移植的图形加速渲染引擎、高性能的本地ARM代码进行绘制，不再需要通过虚拟DOM或虚拟控件、真实DOM或平台控件这些中间对象来绘制。Flutter响应式框架通过“无中间商赚差价”的方式直接利用硬件的所有性能，所以正如前面所说的，Flutter应用的性能比原生App更加优秀。<br><img src="/flutterFramework/image4.jpg" alt></p>
 <p>Flutter的优秀还不止如此，使用Flutter开发的应用能以60 FPS运行，这是现有的移动端游戏都难以实现的一个性能指标，例如王者荣耀也只能以40左右的FPS运行，所以使用Flutter创建的用户界面，性能远远优于其他跨平台框架。现在开始学习Flutter，就是对未来的投资！</p>
 
     </div>
