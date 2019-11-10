@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="在创建完一个新的工程项目后，需要创建多级目录结构，可能嵌套很多层，这时使用Shell自动生成目录结构尤为重要。 一、 创建工程以React项目为例 在工程项目路径下创建 Shell 文件  1touch pro.sh   使用Shell 脚本具有可执行权限  1chmod +x ./pro.sh   获取当前项目路径  1CURRPATH=$PWD   创建多级目录使用 mkdir -p （说明：">
+<meta name="keywords" content="Shell React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Shell自动创建React工程目录结构">
+<meta property="og:url" content="http://yoursite.com/2019/11/10/shell-auto-create-project/index.html">
+<meta property="og:site_name" content="虎牙">
+<meta property="og:description" content="在创建完一个新的工程项目后，需要创建多级目录结构，可能嵌套很多层，这时使用Shell自动生成目录结构尤为重要。 一、 创建工程以React项目为例 在工程项目路径下创建 Shell 文件  1touch pro.sh   使用Shell 脚本具有可执行权限  1chmod +x ./pro.sh   获取当前项目路径  1CURRPATH=$PWD   创建多级目录使用 mkdir -p （说明：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-10T13:44:41.178Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Shell自动创建React工程目录结构">
+<meta name="twitter:description" content="在创建完一个新的工程项目后，需要创建多级目录结构，可能嵌套很多层，这时使用Shell自动生成目录结构尤为重要。 一、 创建工程以React项目为例 在工程项目路径下创建 Shell 文件  1touch pro.sh   使用Shell 脚本具有可执行权限  1chmod +x ./pro.sh   获取当前项目路径  1CURRPATH=$PWD   创建多级目录使用 mkdir -p （说明：">
+  <link rel="canonical" href="http://yoursite.com/2019/11/10/shell-auto-create-project/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>使用Shell自动创建React工程目录结构 | 虎牙</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-right">
+    <!-- <div class="headband"></div> -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">虎牙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">成為一個厲害得普通人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/10/shell-auto-create-project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="虎牙">
+      <meta itemprop="description" content="小人物,码农">
+      <meta itemprop="image" content="/images/header.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="虎牙">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">使用Shell自动创建React工程目录结构
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-10 20:55:51 / 修改时间：21:44:41" itemprop="dateCreated datePublished" datetime="2019-11-10T20:55:51+08:00">2019-11-10</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在创建完一个新的工程项目后，需要创建多级目录结构，可能嵌套很多层，这时使用Shell自动生成目录结构尤为重要。</p>
+<h3 id="一、-创建工程以React项目为例"><a href="#一、-创建工程以React项目为例" class="headerlink" title="一、 创建工程以React项目为例"></a>一、 创建工程以React项目为例</h3><ol>
+<li>在工程项目路径下创建 Shell 文件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch pro.sh</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用Shell 脚本具有可执行权限</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x ./pro.sh</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>获取当前项目路径</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CURRPATH=<span class="variable">$PWD</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>创建多级目录使用 mkdir -p （说明：一个已存在的目录，不会报错结果是成功的）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p a/b/c/d <span class="comment"># 创建a目录，并在a目录下创建b目录，在b目录下创建c目录，在c目录下创建d目录</span></span><br><span class="line">mkdir -p a/&#123;b1,b2,b3/&#123;c1,c2,c3&#125;,b4&#125; <span class="comment"># 创建a目录,在a目录下创建b1,b2,b3,b4目录,在b3目录下创建c1,c2,c3目录</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>创建文件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch index.js</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>从控制台读取用户输入的值<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"请输入工程项目名称:"</span></span><br><span class="line"><span class="built_in">read</span> name</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>二、 if条件判断语句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>  (表达式)  <span class="comment">#if ( Variable in Array )</span></span><br><span class="line">语句1</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">语句2</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>多个条件判断</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">scores=80</span><br><span class="line"><span class="keyword">if</span>  [[ <span class="variable">$scores</span> -gt 85 ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"very good!"</span>;</span><br><span class="line"><span class="keyword">elif</span> [[ <span class="variable">$scores</span> -gt 75 ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"good!"</span>;</span><br><span class="line"><span class="keyword">elif</span> [[ <span class="variable">$scores</span> -gt 60 ]]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"pass!"</span>;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"no pass!"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>逻辑运算符解析：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-f     判断文件是否存在 eg: <span class="keyword">if</span> [ -f filename ]</span><br><span class="line">-d     判断目录是否存在 eg: <span class="keyword">if</span> [ -d dir     ]</span><br><span class="line">-eq    等于 应用于：整型比较</span><br><span class="line">-ne    不等于 应用于：整型比较</span><br><span class="line">-lt    小于 应用于：整型比较</span><br><span class="line">-gt    大于 应用于：整型比较</span><br><span class="line">-le    小于或等于 应用于：整型比较</span><br><span class="line">-ge    大于或等于 应用于：整型比较</span><br><span class="line">-a    双方都成立（and） 逻辑表达式 –a 逻辑表达式</span><br><span class="line">-o    单方成立（or） 逻辑表达式 –o 逻辑表达式</span><br><span class="line">-z    空字符串</span><br></pre></td></tr></table></figure>
+
+<h3 id="三、Shell中for循环的几个常用写法"><a href="#三、Shell中for循环的几个常用写法" class="headerlink" title="三、Shell中for循环的几个常用写法"></a>三、Shell中for循环的几个常用写法</h3><ol>
+<li>数字性循环<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>((i=1;i&lt;=10;i++));</span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line"><span class="built_in">echo</span> $(expr <span class="variable">$i</span> \* 3 + 1);</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(seq 1 10)</span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line"><span class="built_in">echo</span> $(expr <span class="variable">$i</span> \* 3 + 1);</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..10&#125;</span><br><span class="line"><span class="keyword">do</span> </span><br><span class="line"><span class="built_in">echo</span> $(expr <span class="variable">$i</span> \* 3 + 1);</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk <span class="string">'BEGIN&#123;for(i=1; i&lt;=10; i++) print i&#125;'</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>字符性循环<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">list=<span class="string">"rootfs usr data data2"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$list</span>;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$i</span> is appoint ;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $* ;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$i</span> is input chart\! ;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> f1 f2 f3 ;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$i</span> is appoint ;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">list=<span class="string">"rootfs usr data data2"</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="variable">$list</span>;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$i</span> is appoint ;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>路径查找</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> /proc/*;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$file</span> is file path \! ;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> file <span class="keyword">in</span> $(ls *.sh)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$file</span> is file path \! ;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>while 循环</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ((i &lt;= 100))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    ((sum += i))</span><br><span class="line">    ((i++))</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The sum is: <span class="variable">$sum</span>"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>select in 通常和 case in 一起使用，在用户输入不同的编号时可以做出不同的反应。</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"What is your favourite OS?"</span></span><br><span class="line">select name <span class="keyword">in</span> <span class="string">"Linux"</span> <span class="string">"Windows"</span> <span class="string">"Mac OS"</span> <span class="string">"UNIX"</span> <span class="string">"Android"</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="keyword">case</span> <span class="variable">$name</span> <span class="keyword">in</span></span><br><span class="line">        <span class="string">"Linux"</span>)</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"Linux是一个类UNIX操作系统，它开源免费，运行在各种服务器设备和嵌入式设备。"</span></span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">            ;;</span><br><span class="line">        <span class="string">"Windows"</span>)</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"Windows是微软开发的个人电脑操作系统，它是闭源收费的。"</span></span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">            ;;</span><br><span class="line">        <span class="string">"Mac OS"</span>)</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"Mac OS是苹果公司基于UNIX开发的一款图形界面操作系统，只能运行与苹果提供的硬件之上。"</span></span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">            ;;</span><br><span class="line">        <span class="string">"UNIX"</span>)</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"UNIX是操作系统的开山鼻祖，现在已经逐渐退出历史舞台，只应用在特殊场合。"</span></span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">            ;;</span><br><span class="line">        <span class="string">"Android"</span>)</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"Android是由Google开发的手机操作系统，目前已经占据了70%的市场份额。"</span></span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">            ;;</span><br><span class="line">        *)</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">"输入错误，请重新输入"</span></span><br><span class="line">    <span class="keyword">esac</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="四、-React-工作目录案例"><a href="#四、-React-工作目录案例" class="headerlink" title="四、 React 工作目录案例"></a>四、 React 工作目录案例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># chmod +x ./pro.sh  #使脚本具有执行权限</span></span><br><span class="line"><span class="comment"># ./pro.sh  #执行脚本</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"请输入工程项目名称:"</span></span><br><span class="line"><span class="built_in">read</span> name</span><br><span class="line"></span><br><span class="line">CURRPATH=<span class="variable">$PWD</span> </span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$name</span>"</span> != <span class="string">""</span> ]; <span class="keyword">then</span></span><br><span class="line">	<span class="comment"># 创建常规目录</span></span><br><span class="line">	mkdir -p <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/&#123;page,components,assets/&#123;images,styles&#125;,store,uitl&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment"># 创建 router</span></span><br><span class="line">	mkdir -p <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/router</span><br><span class="line">	touch <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/router/index.js</span><br><span class="line">	touch <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/router/routers.js</span><br><span class="line"></span><br><span class="line">	<span class="comment"># 创建 service</span></span><br><span class="line">	mkdir -p <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/service</span><br><span class="line">	touch <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/service/index.js</span><br><span class="line">	touch <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/service/api.js</span><br><span class="line"></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"创建成功!"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"请选择要在那个目录下创建文件"</span></span><br><span class="line">select folder <span class="keyword">in</span> <span class="string">"components"</span> <span class="string">"pages"</span> <span class="string">"stores"</span> <span class="string">"quit"</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    <span class="keyword">case</span> <span class="variable">$folder</span> <span class="keyword">in</span> </span><br><span class="line">	    <span class="string">"components"</span>)</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"请输入名称:"</span></span><br><span class="line">			<span class="built_in">read</span> file</span><br><span class="line">			mkdir -p <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/components/<span class="variable">$file</span></span><br><span class="line">			touch <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/components/<span class="variable">$file</span>/index.js</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"创建成功"</span></span><br><span class="line">			;;</span><br><span class="line">		<span class="string">"pages"</span>)</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"请输入名称:"</span></span><br><span class="line">			<span class="built_in">read</span> file</span><br><span class="line">			mkdir -p <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/page/<span class="variable">$file</span></span><br><span class="line">			touch <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/page/<span class="variable">$file</span>/index.js</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"创建成功"</span></span><br><span class="line">			;;</span><br><span class="line">		<span class="string">"stores"</span>)</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"请输入名称:"</span></span><br><span class="line">			<span class="built_in">read</span> file</span><br><span class="line">			mkdir -p <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/store/<span class="variable">$file</span></span><br><span class="line">			touch <span class="variable">$CURRPATH</span>/<span class="variable">$name</span>/src/store/<span class="variable">$file</span>/index.js</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"创建成功"</span></span><br><span class="line">			;;</span><br><span class="line">		<span class="string">"quit"</span>)</span><br><span class="line">			<span class="built_in">echo</span> <span class="string">"退出"</span></span><br><span class="line">			<span class="built_in">break</span></span><br><span class="line">			;;</span><br><span class="line">    <span class="keyword">esac</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+      
+        <div id="reward-container">
+  <div>欣赏此文？求鼓励，求支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.png" alt="虎牙 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.png" alt="虎牙 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Shell-React/" rel="tag"># Shell React</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/13/react-custom-components/" rel="next" title="React 实现自定义组件">
+                  <i class="fa fa-chevron-left"></i> React 实现自定义组件
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/header.png"
+      alt="虎牙">
+  <p class="site-author-name" itemprop="name">虎牙</p>
+  <div class="site-description motion-element" itemprop="description">小人物,码农</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      推荐阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jackerchongchong.github.io" title="https://jackerchongchong.github.io" rel="noopener" target="_blank">Jack二虫虫</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、-创建工程以React项目为例"><span class="nav-number">1.</span> <span class="nav-text">一、 创建工程以React项目为例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、Shell中for循环的几个常用写法"><span class="nav-number">2.</span> <span class="nav-text">三、Shell中for循环的几个常用写法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、-React-工作目录案例"><span class="nav-number">3.</span> <span class="nav-text">四、 React 工作目录案例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">虎牙</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
