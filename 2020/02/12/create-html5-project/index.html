@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="创建项目命令1yarn create create-app my-app  进入项目1cd my-app  项目逆向配置1yarn eject  安装代理12345678910111213141516yarn add http-proxy-middlewaresrc同级目录创建 setupProxy.js 代理及配置const proxy = require(&apos;http-proxy-middlew">
+<meta name="keywords" content="React,Web,HTML5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML5创建工程依赖项">
+<meta property="og:url" content="http://yoursite.com/2020/02/12/create-html5-project/index.html">
+<meta property="og:site_name" content="虎牙">
+<meta property="og:description" content="创建项目命令1yarn create create-app my-app  进入项目1cd my-app  项目逆向配置1yarn eject  安装代理12345678910111213141516yarn add http-proxy-middlewaresrc同级目录创建 setupProxy.js 代理及配置const proxy = require(&apos;http-proxy-middlew">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-02-12T12:40:38.702Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTML5创建工程依赖项">
+<meta name="twitter:description" content="创建项目命令1yarn create create-app my-app  进入项目1cd my-app  项目逆向配置1yarn eject  安装代理12345678910111213141516yarn add http-proxy-middlewaresrc同级目录创建 setupProxy.js 代理及配置const proxy = require(&apos;http-proxy-middlew">
+  <link rel="canonical" href="http://yoursite.com/2020/02/12/create-html5-project/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>HTML5创建工程依赖项 | 虎牙</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-right">
+    <!-- <div class="headband"></div> -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">虎牙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">成為一個厲害得普通人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/12/create-html5-project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="虎牙">
+      <meta itemprop="description" content="小人物,码农">
+      <meta itemprop="image" content="/images/header.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="虎牙">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">HTML5创建工程依赖项
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-12 20:18:52 / 修改时间：20:40:38" itemprop="dateCreated datePublished" datetime="2020-02-12T20:18:52+08:00">2020-02-12</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="创建项目命令"><a href="#创建项目命令" class="headerlink" title="创建项目命令"></a>创建项目命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn create create-app my-app</span><br></pre></td></tr></table></figure>
+
+<h2 id="进入项目"><a href="#进入项目" class="headerlink" title="进入项目"></a>进入项目</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> my-app</span><br></pre></td></tr></table></figure>
+
+<h2 id="项目逆向配置"><a href="#项目逆向配置" class="headerlink" title="项目逆向配置"></a>项目逆向配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn eject</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装代理"><a href="#安装代理" class="headerlink" title="安装代理"></a>安装代理</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">yarn add http-proxy-middleware</span><br><span class="line"></span><br><span class="line">src同级目录创建 setupProxy.js 代理及配置</span><br><span class="line">const proxy = require(<span class="string">'http-proxy-middleware'</span>)</span><br><span class="line"></span><br><span class="line">module.exports = <span class="keyword">function</span> (app) &#123;</span><br><span class="line">	app.use(proxy(<span class="string">'/minio'</span>, &#123; target: <span class="string">'http://39.100.5.254'</span> &#125;));</span><br><span class="line">	app.use(</span><br><span class="line">	    proxy(<span class="string">"/api"</span>, &#123;</span><br><span class="line">	      target: <span class="string">"http://39.100.5.254"</span>,</span><br><span class="line">	      changeOrigin: <span class="literal">true</span>,</span><br><span class="line">	      secure: <span class="literal">false</span>,</span><br><span class="line">	      pathRewrite:&#123;<span class="string">'^/api'</span>:<span class="string">''</span>&#125;</span><br><span class="line">	    &#125;)</span><br><span class="line">	);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装样式"><a href="#安装样式" class="headerlink" title="安装样式"></a>安装样式</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">yarn add less less-loader</span><br><span class="line">webpack.config.js 配置 less   </span><br><span class="line">const cssRegex = /\.(css|less)$/;</span><br><span class="line">const cssModuleRegex = /\.module\.(css|less)$/;</span><br><span class="line">&#123;</span><br><span class="line">    loader: require.resolve(<span class="string">'less-loader'</span>),</span><br><span class="line">    options: cssOptions,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装桥"><a href="#安装桥" class="headerlink" title="安装桥"></a>安装桥</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add dsbridge</span><br></pre></td></tr></table></figure>
+
+<h2 id="手机端UI"><a href="#手机端UI" class="headerlink" title="手机端UI"></a>手机端UI</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add antd-mobile</span><br></pre></td></tr></table></figure>
+
+<h2 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add axios</span><br></pre></td></tr></table></figure>
+
+<h2 id="状态管理-mobx-mobx-react"><a href="#状态管理-mobx-mobx-react" class="headerlink" title="状态管理 mobx mobx-react"></a>状态管理 mobx mobx-react</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add mobx mobx-react</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置装饰器（修饰器-es6-）-babel"><a href="#配置装饰器（修饰器-es6-）-babel" class="headerlink" title="配置装饰器（修饰器 es6 ） babel"></a>配置装饰器（修饰器 es6 ） babel</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yarn add babel-plugin-transform-decorators-legacy -D</span><br><span class="line">yarn add @babel/preset-env -D</span><br><span class="line">yarn add babel-plugin-transform-class-properties -D</span><br><span class="line">yarn add @babel/plugin-proposal-decorators -D</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置package-json"><a href="#配置package-json" class="headerlink" title="配置package.json"></a>配置package.json</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"babel"</span>: &#123;</span><br><span class="line">	<span class="string">"plugins"</span>: [</span><br><span class="line">		[</span><br><span class="line">			<span class="string">"@babel/plugin-proposal-decorators"</span>,</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="string">"legacy"</span>: <span class="literal">true</span></span><br><span class="line">			&#125;</span><br><span class="line">		],</span><br><span class="line">		<span class="string">"transform-class-properties"</span></span><br><span class="line">	],</span><br><span class="line">	<span class="string">"presets"</span>: [</span><br><span class="line">		<span class="string">"react-app"</span>,</span><br><span class="line">		<span class="string">"@babel/preset-env"</span></span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="路由配置"><a href="#路由配置" class="headerlink" title="路由配置"></a>路由配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add react-router-dom react-router react-animated-router</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="项目配置"><a href="#项目配置" class="headerlink" title="项目配置"></a>项目配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Provider &#125; from <span class="string">'mobx-react'</span>;</span><br><span class="line">import stores from <span class="string">'./stores'</span>;</span><br><span class="line">	</span><br><span class="line">&lt;Provider &#123;...stores&#125;&gt;</span><br><span class="line">   	&lt;Router&gt;</span><br><span class="line">       	&lt;AnimatedRouter &gt;</span><br><span class="line">          &#123;routeView()&#125;</span><br><span class="line">        &lt;/AnimatedRouter &gt;</span><br><span class="line">     &lt;/Router&gt;</span><br><span class="line">&lt;/Provider&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="安装类型配置"><a href="#安装类型配置" class="headerlink" title="安装类型配置"></a>安装类型配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add prop-types</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="安装数据绑定配置"><a href="#安装数据绑定配置" class="headerlink" title="安装数据绑定配置"></a>安装数据绑定配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add rc-form</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="安装适配器"><a href="#安装适配器" class="headerlink" title="安装适配器"></a>安装适配器</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">yarn add postcss-aspect-ratio-mini postcss-px-to-viewport postcss-write-svg postcss-cssnext postcss-viewport-units cssnano</span><br><span class="line">在config/webpack.config.js 中修改代码</span><br><span class="line">const postcssAspectRatioMini = require(<span class="string">'postcss-aspect-ratio-mini'</span>);</span><br><span class="line">const postcssPxToViewport = require(<span class="string">'postcss-px-to-viewport'</span>);</span><br><span class="line">const postcssWriteSvg = require(<span class="string">'postcss-write-svg'</span>);</span><br><span class="line">const postcssCssnext = require(<span class="string">'postcss-cssnext'</span>);</span><br><span class="line">const postcssViewportUnits = require(<span class="string">'postcss-viewport-units'</span>);</span><br><span class="line">const cssnano = require(<span class="string">'cssnano'</span>);</span><br><span class="line"></span><br><span class="line">增加postcss 配置</span><br><span class="line">&#123;</span><br><span class="line">    // Options <span class="keyword">for</span> PostCSS as we reference these options twice</span><br><span class="line">    // Adds vendor prefixing based on your specified browser support <span class="keyword">in</span></span><br><span class="line">    // package.json</span><br><span class="line">    loader: require.resolve(<span class="string">'postcss-loader'</span>),</span><br><span class="line">    options: &#123;</span><br><span class="line">       	// Necessary <span class="keyword">for</span> external CSS imports to work</span><br><span class="line">        // https://github.com/facebook/create-react-app/issues/2677</span><br><span class="line">        ident: <span class="string">'postcss'</span>,</span><br><span class="line">        plugins: () =&gt; [</span><br><span class="line">            require(<span class="string">'postcss-flexbugs-fixes'</span>),</span><br><span class="line">            require(<span class="string">'postcss-preset-env'</span>)(&#123;</span><br><span class="line">              autoprefixer: &#123;</span><br><span class="line">                flexbox: <span class="string">'no-2009'</span>,</span><br><span class="line">              &#125;,</span><br><span class="line">              stage: 3,</span><br><span class="line">            &#125;),</span><br><span class="line">            // 引入postCss配置</span><br><span class="line">            postcssAspectRatioMini(&#123;&#125;),</span><br><span class="line">            postcssPxToViewport(&#123;</span><br><span class="line">              viewportWidth: 750, // (Number) The width of the viewport.</span><br><span class="line">              viewportHeight: 1334, // (Number) The height of the viewport.</span><br><span class="line">              unitPrecision: 3, // (Number) The decimal numbers to allow the REM units to grow to.</span><br><span class="line">              viewportUnit: <span class="string">'vw'</span>, // (String) Expected units.</span><br><span class="line">              selectorBlackList: [<span class="string">'.ignore'</span>, <span class="string">'.hairlines'</span>, <span class="string">'.antd-mobile'</span>], // (Array) The selectors to ignore and leave as px.</span><br><span class="line">              minPixelValue: 1, // (Number) Set the minimum pixel value to replace.</span><br><span class="line">              mediaQuery: <span class="literal">false</span>, // (Boolean) Allow px to be converted <span class="keyword">in</span> media queries.</span><br><span class="line">              exclude: /(\/|\\)(node_modules)(\/|\\)/</span><br><span class="line">            &#125;),</span><br><span class="line">            postcssWriteSvg(&#123;</span><br><span class="line">              utf8: <span class="literal">false</span></span><br><span class="line">            &#125;),</span><br><span class="line">            postcssPresetEnv(&#123;&#125;),</span><br><span class="line">            postcssViewportUnits(&#123;&#125;),</span><br><span class="line">            cssnano(&#123;</span><br><span class="line">              <span class="string">"cssnano-preset-advanced"</span>: &#123;</span><br><span class="line">                zindex: <span class="literal">false</span>,</span><br><span class="line">                autoprefixer: <span class="literal">false</span></span><br><span class="line">              &#125;,</span><br><span class="line">            &#125;)</span><br><span class="line">        ],</span><br><span class="line">        sourceMap: isEnvProduction &amp;&amp; shouldUseSourceMap,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+<p>配置完成以后，我们可以看到vw 神奇的效果了</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        <div id="reward-container">
+  <div>欣赏此文？求鼓励，求支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.png" alt="虎牙 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.png" alt="虎牙 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/React/" rel="tag"># React</a>
+            
+              <a href="/tags/Web/" rel="tag"># Web</a>
+            
+              <a href="/tags/HTML5/" rel="tag"># HTML5</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/14/npm-privately-owned-verdaccio/" rel="next" title="使用verdaccio 搭建npm私有仓库">
+                  <i class="fa fa-chevron-left"></i> 使用verdaccio 搭建npm私有仓库
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/header.png"
+      alt="虎牙">
+  <p class="site-author-name" itemprop="name">虎牙</p>
+  <div class="site-description motion-element" itemprop="description">小人物,码农</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      推荐阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jackerchongchong.github.io" title="https://jackerchongchong.github.io" rel="noopener" target="_blank">Jack二虫虫</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建项目命令"><span class="nav-number">1.</span> <span class="nav-text">创建项目命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进入项目"><span class="nav-number">2.</span> <span class="nav-text">进入项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目逆向配置"><span class="nav-number">3.</span> <span class="nav-text">项目逆向配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装代理"><span class="nav-number">4.</span> <span class="nav-text">安装代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装样式"><span class="nav-number">5.</span> <span class="nav-text">安装样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装桥"><span class="nav-number">6.</span> <span class="nav-text">安装桥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手机端UI"><span class="nav-number">7.</span> <span class="nav-text">手机端UI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络请求"><span class="nav-number">8.</span> <span class="nav-text">网络请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态管理-mobx-mobx-react"><span class="nav-number">9.</span> <span class="nav-text">状态管理 mobx mobx-react</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置装饰器（修饰器-es6-）-babel"><span class="nav-number">10.</span> <span class="nav-text">配置装饰器（修饰器 es6 ） babel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置package-json"><span class="nav-number">10.1.</span> <span class="nav-text">配置package.json</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由配置"><span class="nav-number">11.</span> <span class="nav-text">路由配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目配置"><span class="nav-number">12.</span> <span class="nav-text">项目配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装类型配置"><span class="nav-number">13.</span> <span class="nav-text">安装类型配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装数据绑定配置"><span class="nav-number">14.</span> <span class="nav-text">安装数据绑定配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装适配器"><span class="nav-number">15.</span> <span class="nav-text">安装适配器</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">虎牙</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
