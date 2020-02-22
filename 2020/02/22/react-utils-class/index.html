@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="时间格式对象12345const dateFormatPreset = &amp;#123;  datetime: &amp;apos;YYYY/MM/DD HH:mm:ss&amp;apos;,  date: &amp;apos;YYYY/MM/DD&amp;apos;,  time: &amp;apos;HH:mm:ss&amp;apos;&amp;#125;;  创建共有类1234class Util &amp;#123;	&amp;#125;export const">
+<meta name="keywords" content="React,Web,HTML5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React 工具类共有方法记录">
+<meta property="og:url" content="http://yoursite.com/2020/02/22/react-utils-class/index.html">
+<meta property="og:site_name" content="虎牙">
+<meta property="og:description" content="时间格式对象12345const dateFormatPreset = &amp;#123;  datetime: &amp;apos;YYYY/MM/DD HH:mm:ss&amp;apos;,  date: &amp;apos;YYYY/MM/DD&amp;apos;,  time: &amp;apos;HH:mm:ss&amp;apos;&amp;#125;;  创建共有类1234class Util &amp;#123;	&amp;#125;export const">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-02-22T08:21:57.268Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React 工具类共有方法记录">
+<meta name="twitter:description" content="时间格式对象12345const dateFormatPreset = &amp;#123;  datetime: &amp;apos;YYYY/MM/DD HH:mm:ss&amp;apos;,  date: &amp;apos;YYYY/MM/DD&amp;apos;,  time: &amp;apos;HH:mm:ss&amp;apos;&amp;#125;;  创建共有类1234class Util &amp;#123;	&amp;#125;export const">
+  <link rel="canonical" href="http://yoursite.com/2020/02/22/react-utils-class/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>React 工具类共有方法记录 | 虎牙</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-right">
+    <!-- <div class="headband"></div> -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">虎牙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">成為一個厲害得普通人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/22/react-utils-class/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="虎牙">
+      <meta itemprop="description" content="小人物,码农">
+      <meta itemprop="image" content="/images/header.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="虎牙">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">React 工具类共有方法记录
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-22 15:08:52 / 修改时间：16:21:57" itemprop="dateCreated datePublished" datetime="2020-02-22T15:08:52+08:00">2020-02-22</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="时间格式对象"><a href="#时间格式对象" class="headerlink" title="时间格式对象"></a>时间格式对象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const dateFormatPreset = &#123;</span><br><span class="line">  datetime: &apos;YYYY/MM/DD HH:mm:ss&apos;,</span><br><span class="line">  date: &apos;YYYY/MM/DD&apos;,</span><br><span class="line">  time: &apos;HH:mm:ss&apos;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建共有类"><a href="#创建共有类" class="headerlink" title="创建共有类"></a>创建共有类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Util &#123;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">export const util = new Util();</span><br></pre></td></tr></table></figure>
+
+<h3 id="图片预加载"><a href="#图片预加载" class="headerlink" title="图片预加载"></a>图片预加载</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">预加载src</span><br><span class="line"></span><br><span class="line">imgLazy(src) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">      const img = new Image();</span><br><span class="line">      img.src = src;</span><br><span class="line">      img.onload = function() &#123;</span><br><span class="line">        resolve(img);</span><br><span class="line">      &#125;;</span><br><span class="line">      img.onerror = function() &#123;</span><br><span class="line">        console.error(&apos;图片加载失败&apos;, null);</span><br><span class="line">        reject(null);</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="判断是否是空，null-undefined-‘’-不包含0"><a href="#判断是否是空，null-undefined-‘’-不包含0" class="headerlink" title="判断是否是空，null, undefined, ‘’, 不包含0"></a>判断是否是空，null, undefined, ‘’, 不包含0</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">isEmpty(value) &#123;</span><br><span class="line">    if (value === null || value === undefined || value === &apos;&apos;) &#123;</span><br><span class="line">      return true;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="格式化日期时间"><a href="#格式化日期时间" class="headerlink" title="格式化日期时间"></a>格式化日期时间</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;Date&#125; date 要格式化的日期，默认为当期时间</span><br><span class="line">format 具体的format，提供datetime, date, time三个预设，其他格式请参考 dayjs / momentjs</span><br><span class="line"></span><br><span class="line">formatDate(date = new Date(), format = &apos;datetime&apos;) &#123;</span><br><span class="line">    return dayjs(date).format(dateFormatPreset[format] || format);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a>本地缓存</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">设置</span><br><span class="line"></span><br><span class="line">setStorage(key, obj) &#123;</span><br><span class="line">    if (typeof obj === &apos;string&apos;) &#123;</span><br><span class="line">      window.localStorage.setItem(key, obj);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      window.localStorage.setItem(key, JSON.stringify(obj));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">获取</span><br><span class="line"></span><br><span class="line">getStorage(key) &#123;</span><br><span class="line">    let val = window.localStorage.getItem(key);</span><br><span class="line">    try &#123;</span><br><span class="line">      return JSON.parse(val);</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">      return val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">删除， 如果不传值，删除所有</span><br><span class="line"></span><br><span class="line">clearStorage(key) &#123;</span><br><span class="line">    if (key) &#123;</span><br><span class="line">      window.localStorage.removeItem(key);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      window.localStorage.clear();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">uniq(arr, param) &#123;</span><br><span class="line">    return uniq(arr, param);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="url参数转对象"><a href="#url参数转对象" class="headerlink" title="url参数转对象"></a>url参数转对象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">default: window.location.href</span><br><span class="line"></span><br><span class="line">getUrlData(name) &#123;</span><br><span class="line">    let reg = new RegExp(&apos;(^|&amp;)&apos; + name + &apos;=([^&amp;]*)(&amp;|$)&apos;);</span><br><span class="line">    let r = window.location.search.substr(1).match(reg);</span><br><span class="line">    let data = null;</span><br><span class="line">    if (r != null) &#123;</span><br><span class="line">      data = unescape(r[2]);</span><br><span class="line">    &#125;</span><br><span class="line">    return data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Storage-封装"><a href="#Storage-封装" class="headerlink" title="Storage 封装"></a>Storage 封装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class YLStorage &#123;</span><br><span class="line">  constructor() &#123;</span><br><span class="line">    this.storage = localStorage;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  get(key) &#123;</span><br><span class="line">    let data = this.storage.getItem(key);</span><br><span class="line">    try &#123;</span><br><span class="line">      data = JSON.parse(data);</span><br><span class="line">    &#125; catch (e) &#123;</span><br><span class="line">      data = null;</span><br><span class="line">    &#125;</span><br><span class="line">    return data;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  set(key, value) &#123;</span><br><span class="line">    return this.storage.setItem(key, JSON.stringify(value));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  remove(key) &#123;</span><br><span class="line">    return this.storage.removeItem(key);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  clear() &#123;</span><br><span class="line">    return this.storage.clear();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export const storage = new YLStorage();</span><br></pre></td></tr></table></figure>
+
+<h3 id="Route-history-封装"><a href="#Route-history-封装" class="headerlink" title="Route history 封装"></a>Route history 封装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &#123; createBrowserHistory &#125; from &apos;history&apos;;</span><br><span class="line">export const history = createBrowserHistory();</span><br></pre></td></tr></table></figure>
+
+<h3 id="dynamic-代码分割-封装"><a href="#dynamic-代码分割-封装" class="headerlink" title="dynamic 代码分割 封装"></a>dynamic 代码分割 封装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import Loadable from &apos;react-loadable&apos;; // 代码分割</span><br><span class="line">import Loading from &apos;../components/loading&apos;; 组件</span><br><span class="line"></span><br><span class="line">export function dynamic(compPromise) &#123;</span><br><span class="line">  return Loadable(&#123;</span><br><span class="line">    loader: () =&gt; compPromise,</span><br><span class="line">    loading: Loading</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Loading-组件-样例-components-Loading-index-js"><a href="#Loading-组件-样例-components-Loading-index-js" class="headerlink" title="Loading 组件 样例 components/Loading/index.js"></a>Loading 组件 样例 components/Loading/index.js</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import &apos;./loading.less&apos;;</span><br><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">export default class Loading extends Component &#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return &lt;div&gt;loading&lt;/div&gt;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="导出样例-Utils-index-js"><a href="#导出样例-Utils-index-js" class="headerlink" title="导出样例 Utils/index.js"></a>导出样例 Utils/index.js</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import &#123; dynamic &#125; from &apos;./dynamic&apos;;</span><br><span class="line">import &#123; history &#125; from &apos;./history&apos;;</span><br><span class="line">import &#123; storage &#125; from &apos;./storage&apos;;</span><br><span class="line">export &#123; storage, history, dynamic &#125;;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+      
+        <div id="reward-container">
+  <div>欣赏此文？求鼓励，求支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.png" alt="虎牙 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.png" alt="虎牙 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/React/" rel="tag"># React</a>
+            
+              <a href="/tags/Web/" rel="tag"># Web</a>
+            
+              <a href="/tags/HTML5/" rel="tag"># HTML5</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/02/12/create-html5-project/" rel="next" title="HTML5创建工程依赖项">
+                  <i class="fa fa-chevron-left"></i> HTML5创建工程依赖项
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/02/22/react-h5-project-class-router/" rel="prev" title="react-h5-project-class-router">
+                  react-h5-project-class-router <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/header.png"
+      alt="虎牙">
+  <p class="site-author-name" itemprop="name">虎牙</p>
+  <div class="site-description motion-element" itemprop="description">小人物,码农</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      推荐阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jackerchongchong.github.io" title="https://jackerchongchong.github.io" rel="noopener" target="_blank">Jack二虫虫</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#时间格式对象"><span class="nav-number">1.</span> <span class="nav-text">时间格式对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建共有类"><span class="nav-number">2.</span> <span class="nav-text">创建共有类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片预加载"><span class="nav-number">3.</span> <span class="nav-text">图片预加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判断是否是空，null-undefined-‘’-不包含0"><span class="nav-number">4.</span> <span class="nav-text">判断是否是空，null, undefined, ‘’, 不包含0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格式化日期时间"><span class="nav-number">5.</span> <span class="nav-text">格式化日期时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地缓存"><span class="nav-number">6.</span> <span class="nav-text">本地缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数组去重"><span class="nav-number">7.</span> <span class="nav-text">数组去重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#url参数转对象"><span class="nav-number">8.</span> <span class="nav-text">url参数转对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Storage-封装"><span class="nav-number">9.</span> <span class="nav-text">Storage 封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Route-history-封装"><span class="nav-number">10.</span> <span class="nav-text">Route history 封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dynamic-代码分割-封装"><span class="nav-number">11.</span> <span class="nav-text">dynamic 代码分割 封装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loading-组件-样例-components-Loading-index-js"><span class="nav-number">12.</span> <span class="nav-text">Loading 组件 样例 components/Loading/index.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导出样例-Utils-index-js"><span class="nav-number">13.</span> <span class="nav-text">导出样例 Utils/index.js</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">虎牙</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
