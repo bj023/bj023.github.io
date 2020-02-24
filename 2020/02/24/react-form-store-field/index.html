@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    save_scroll: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    }
+  };
+</script>
+
+  <meta name="description" content="为什么要造轮子在 React 中使用表单有个明显的痛点，就是需要维护大量的value和onChange，比如一个简单的登录框： 123456789101112131415161718192021222324252627282930313233343536373839class App extends React.Component &amp;#123;  constructor(props) &amp;#123;">
+<meta name="keywords" content="React,Web,HTML5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单实用的React表单Form 组件的设计与实现">
+<meta property="og:url" content="http://yoursite.com/2020/02/24/react-form-store-field/index.html">
+<meta property="og:site_name" content="虎牙">
+<meta property="og:description" content="为什么要造轮子在 React 中使用表单有个明显的痛点，就是需要维护大量的value和onChange，比如一个简单的登录框： 123456789101112131415161718192021222324252627282930313233343536373839class App extends React.Component &amp;#123;  constructor(props) &amp;#123;">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-02-24T01:37:54.762Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简单实用的React表单Form 组件的设计与实现">
+<meta name="twitter:description" content="为什么要造轮子在 React 中使用表单有个明显的痛点，就是需要维护大量的value和onChange，比如一个简单的登录框： 123456789101112131415161718192021222324252627282930313233343536373839class App extends React.Component &amp;#123;  constructor(props) &amp;#123;">
+  <link rel="canonical" href="http://yoursite.com/2020/02/24/react-form-store-field/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>简单实用的React表单Form 组件的设计与实现 | 虎牙</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  <div class="container sidebar-position-right">
+    <!-- <div class="headband"></div> -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">虎牙</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">成為一個厲害得普通人</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/24/react-form-store-field/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="虎牙">
+      <meta itemprop="description" content="小人物,码农">
+      <meta itemprop="image" content="/images/header.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="虎牙">
+    </span>
+      <header class="post-header">
+
+        
+          <h1 class="post-title" itemprop="name headline">简单实用的React表单Form 组件的设计与实现
+
+            
+          </h1>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-02-24 09:31:29 / 修改时间：09:37:54" itemprop="dateCreated datePublished" datetime="2020-02-24T09:31:29+08:00">2020-02-24</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="为什么要造轮子"><a href="#为什么要造轮子" class="headerlink" title="为什么要造轮子"></a>为什么要造轮子</h3><p>在 React 中使用表单有个明显的痛点，就是需要维护大量的value和onChange，比如一个简单的登录框：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">class App extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line"></span><br><span class="line">    this.state = &#123;</span><br><span class="line">      username: &quot;&quot;,</span><br><span class="line">      password: &quot;&quot;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  onUsernameChange = e =&gt; &#123;</span><br><span class="line">    this.setState(&#123; username: e.target.value &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  onPasswordChange = e =&gt; &#123;</span><br><span class="line">    this.setState(&#123; password: e.target.value &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  onSubmit = () =&gt; &#123;</span><br><span class="line">    const data = this.state;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    const &#123; username, password &#125; = this.state;</span><br><span class="line"></span><br><span class="line">    return (</span><br><span class="line">      &lt;form onSubmit=&#123;this.onSubmit&#125;&gt;</span><br><span class="line">        &lt;input value=&#123;username&#125; onChange=&#123;this.onUsernameChange&#125; /&gt;</span><br><span class="line">        &lt;input</span><br><span class="line">          type=&quot;password&quot;</span><br><span class="line">          value=&#123;password&#125;</span><br><span class="line">          onChange=&#123;this.onPasswordChange&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">        &lt;button&gt;Submit&lt;/button&gt;</span><br><span class="line">      &lt;/form&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这已经是比较简单的登录页，一些涉及到详情编辑的页面，十多二十个组件也是常有的。一旦组件多起来就会有许多弊端：</p>
+<p>不易于维护：占据大量篇幅，阻碍视野。<br>可能影响性能：setState的使用，会导致重新渲染，如果子组件没有相关优化，相当影响性能。<br>表单校验：难以统一进行表单校验。<br>…<br>总结起来，作为一个开发者，迫切希望能有一个表单组件能够同时拥有这样的特性：</p>
+<p>简单易用<br>父组件可通过代码操作表单数据<br>避免不必要的组件重绘<br>支持自定义组件<br>支持表单校验<br>表单组件社区上已经有不少方案，例如react-final-form、formik，ant-plus、noform等，许多组件库也提供了不同方式的支持，如ant-design。</p>
+<p>但这些方案都或多或少一些重量，又或者使用方法仍然不够简便，自然造轮子才是最能复合要求的选择。</p>
+<h3 id="怎么造轮子"><a href="#怎么造轮子" class="headerlink" title="怎么造轮子"></a>怎么造轮子</h3><p>这个表单组件实现起来主要分为三部分：</p>
+<p>Form：用于传递表单上下文。<br>Field： 表单域组件，用于自动传入value和onChange到表单组件。<br>FormStore： 存储表单数据，封装相关操作。<br>为了能减少使用ref，同时又能操作表单数据（取值、修改值、手动校验等），我将用于存储数据的FormStore，从Form组件中分离出来，通过new FormStore()创建并手动传入Form组件。</p>
+<p>使用方式大概会长这样子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">class App extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line"></span><br><span class="line">    this.store = new FormStore();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  onSubmit = () =&gt; &#123;</span><br><span class="line">    const data = this.store.get();</span><br><span class="line">    // ...</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;Form store=&#123;this.store&#125; onSubmit=&#123;this.onSubmit&#125;&gt;</span><br><span class="line">        &lt;Field name=&quot;username&quot;&gt;</span><br><span class="line">          &lt;input /&gt;</span><br><span class="line">        &lt;/Field&gt;</span><br><span class="line">        &lt;Field name=&quot;password&quot;&gt;</span><br><span class="line">          &lt;input type=&quot;password&quot; /&gt;</span><br><span class="line">        &lt;/Field&gt;</span><br><span class="line">        &lt;button&gt;Submit&lt;/button&gt;</span><br><span class="line">      &lt;/Form&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="FormStore"><a href="#FormStore" class="headerlink" title="FormStore"></a>FormStore</h3><p>用于存放表单数据、接受表单初始值，以及封装对表单数据的操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class FormStore &#123;</span><br><span class="line">  constructor(defaultValues = &#123;&#125;, rules = &#123;&#125;) &#123;</span><br><span class="line">    // 表单值</span><br><span class="line">    this.values = defaultValues;</span><br><span class="line"></span><br><span class="line">    // 表单初始值，用于重置表单</span><br><span class="line">    this.defaultValues = deepCopy(defaultValues);</span><br><span class="line"></span><br><span class="line">    // 表单校验规则</span><br><span class="line">    this.rules = rules;</span><br><span class="line"></span><br><span class="line">    // 事件回调</span><br><span class="line">    this.listeners = [];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了让表单数据变动时，能够响应到对应的表单域组件，这里使用了订阅方式，在FormStore中维护一个事件回调列表listeners，每个Field创建时，通过调用FormStore.subscribe(listener)订阅表单数据变动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class FormStore &#123;</span><br><span class="line">  // constructor ...</span><br><span class="line"></span><br><span class="line">  subscribe(listener) &#123;</span><br><span class="line">    this.listeners.push(listener);</span><br><span class="line"></span><br><span class="line">    // 返回一个用于取消订阅的函数</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      const index = this.listeners.indexOf(listener);</span><br><span class="line">      if (index &gt; -1) this.listeners.splice(index, 1);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 通知表单变动，调用所有listener</span><br><span class="line">  notify(name) &#123;</span><br><span class="line">    this.listeners.forEach(listener =&gt; listener(name));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再添加get和set函数，用于获取和设置表单数据。其中，在set函数中调用notify(name)，以保证所有的表单变动都会触发通知。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">class FormStore &#123;</span><br><span class="line">  // constructor ...</span><br><span class="line"></span><br><span class="line">  // subscribe ...</span><br><span class="line"></span><br><span class="line">  // notify ...</span><br><span class="line"></span><br><span class="line">  // 获取表单值</span><br><span class="line">  get(name) &#123;</span><br><span class="line">    // 如果传入name，返回对应的表单值，否则返回整个表单的值</span><br><span class="line">    return name === undefined ? this.values : this.values[name];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 设置表单值</span><br><span class="line">  set(name, value) &#123;</span><br><span class="line">    //如果指定了name</span><br><span class="line">    if (typeof name === &quot;string&quot;) &#123;</span><br><span class="line">      // 设置name对应的值</span><br><span class="line">      this.values[name] = value;</span><br><span class="line">      // 执行表单校验，见下</span><br><span class="line">      this.validate(name);</span><br><span class="line">      // 通知表单变动</span><br><span class="line">      this.notify(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 批量设置表单值</span><br><span class="line">    else if (name) &#123;</span><br><span class="line">      const values = name;</span><br><span class="line">      Object.keys(values).forEach(key =&gt; this.set(key, values[key]));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 重置表单值</span><br><span class="line">  reset() &#123;</span><br><span class="line">    // 清空错误信息</span><br><span class="line">    this.errors = &#123;&#125;;</span><br><span class="line">    // 重置默认值</span><br><span class="line">    this.values = deepCopy(this.defaultValues);</span><br><span class="line">    // 执行通知</span><br><span class="line">    this.notify(&quot;*&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于表单校验部分，不想考虑得太复杂，只做一些规定</p>
+<p>FormStore构造函数中传入的rules是一个对象，该对象的键对应于表单域的name，值是一个校验函数。<br>校验函数参数接受表单域的值和整个表单值，返回boolean或string类型的结果。<br>true代表校验通过。<br>false和string代表校验失败，并且string结果代表错误信息。<br>然后巧妙地通过||符号判断是否校验通过，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">new FormStore(&#123;/* 初始值 */, &#123;</span><br><span class="line">  username: (val) =&gt; !!val.trim() || &apos;用户名不能为空&apos;,</span><br><span class="line">  password: (val) =&gt; !!(val.length &gt; 6 &amp;&amp; val.length &lt; 18) || &apos;密码长度必须大于6个字符，小于18个字符&apos;,</span><br><span class="line">  passwordAgain: (val, vals) =&gt; val === vals.password || &apos;两次输入密码不一致&apos;</span><br><span class="line">&#125;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>在FormStore实现一个validate函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">class FormStore &#123;</span><br><span class="line">  // constructor ...</span><br><span class="line"></span><br><span class="line">  // subscribe ...</span><br><span class="line"></span><br><span class="line">  // notify ...</span><br><span class="line"></span><br><span class="line">  // get ...</span><br><span class="line"></span><br><span class="line">  // set ...</span><br><span class="line"></span><br><span class="line">  // reset ...</span><br><span class="line"></span><br><span class="line">  // 用于设置和获取错误信息</span><br><span class="line">  error(name, value) &#123;</span><br><span class="line">    const args = arguments;</span><br><span class="line">    // 如果没有传入参数，则返回错误信息中的第一条</span><br><span class="line">    // const errors = store.error()</span><br><span class="line">    if (args.length === 0) return this.errors;</span><br><span class="line"></span><br><span class="line">    // 如果传入的name是number类型，返回第i条错误信息</span><br><span class="line">    // const error = store.error(0)</span><br><span class="line">    if (typeof name === &quot;number&quot;) &#123;</span><br><span class="line">      name = Object.keys(this.errors)[name];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 如果传了value，则根据value值设置或删除name对应的错误信息</span><br><span class="line">    if (args.length === 2) &#123;</span><br><span class="line">      if (value === undefined) &#123;</span><br><span class="line">        delete this.errors[name];</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        this.errors[name] = value;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 返回错误信息</span><br><span class="line">    return this.errors[name];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 用于表单校验</span><br><span class="line">  validate(name) &#123;</span><br><span class="line">    if (name === undefined) &#123;</span><br><span class="line">      // 遍历校验整个表单</span><br><span class="line">      Object.keys(this.rules).forEach(n =&gt; this.validate(n));</span><br><span class="line">      // 并通知整个表单的变动</span><br><span class="line">      this.notify(&quot;*&quot;);</span><br><span class="line">      // 返回一个包含第一条错误信息和表单值的数组</span><br><span class="line">      return [this.error(0), this.get()];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 根据name获取校验函数</span><br><span class="line">    const validator = this.rules[name];</span><br><span class="line">    // 根据name获取表单值</span><br><span class="line">    const value = this.get(name);</span><br><span class="line">    // 执行校验函数得到结果</span><br><span class="line">    const result = validator ? validator(name, this.values) : true;</span><br><span class="line">    // 获取并设置结果中的错误信息</span><br><span class="line">    const message = this.error(</span><br><span class="line">      name,</span><br><span class="line">      result === true ? undefined : result || &quot;&quot;</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    // 返回Error对象或undefind，和表单值</span><br><span class="line">    const error = message === undefined ? undefined : new Error(message);</span><br><span class="line">    return [error, value];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，这个表单组件的核心部分FormStore已经完成了，接下来就是这么在Form和Field组件中使用它。</p>
+<h3 id="Form"><a href="#Form" class="headerlink" title="Form"></a>Form</h3><p>Form组件相当简单，也只是为了提供一个入口和传递上下文。</p>
+<p>props接收一个FormStore的实例，并通过Context传递给子组件（即Field）中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const FormStoreContext = React.createContext(undefined);</span><br><span class="line"></span><br><span class="line">function Form(props) &#123;</span><br><span class="line">  const &#123; store, children, onSubmit &#125; = props;</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;FormStoreContext.Provider value=&#123;store&#125;&gt;</span><br><span class="line">      &lt;form onSubmit=&#123;onSubmit&#125;&gt;&#123;children&#125;&lt;/form&gt;</span><br><span class="line">    &lt;/FormStoreContext.Provider&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Field"><a href="#Field" class="headerlink" title="Field"></a>Field</h3><p>Field组件也并不复杂，核心目标是实现value和onChange自动传入到表单组件中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">// 从onChange事件中获取表单值，这里主要应对checkbox的特殊情况</span><br><span class="line">function getValueFromEvent(e) &#123;</span><br><span class="line">  return e &amp;&amp; e.target</span><br><span class="line">    ? e.target.type === &quot;checkbox&quot;</span><br><span class="line">      ? e.target.checked</span><br><span class="line">      : e.target.value</span><br><span class="line">    : e;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Field(props) &#123;</span><br><span class="line">  const &#123; label, name, children &#125; = props;</span><br><span class="line"></span><br><span class="line">  // 拿到Form传下来的FormStore实例</span><br><span class="line">  const store = React.useContext(FormStoreContext);</span><br><span class="line"></span><br><span class="line">  // 组件内部状态，用于触发组件的重新渲染</span><br><span class="line">  const [value, setValue] = React.useState(</span><br><span class="line">    name &amp;&amp; store ? store.get(name) : undefined</span><br><span class="line">  );</span><br><span class="line">  const [error, setError] = React.useState(</span><br><span class="line">    name &amp;&amp; store ? store.error(name) : undefined</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  // 表单组件onChange事件，用于从事件中取得表单值</span><br><span class="line">  const onChange = React.useCallback(</span><br><span class="line">    (...args) =&gt; name &amp;&amp; store &amp;&amp; store.set(name, valueGetter(...args)),</span><br><span class="line">    [name, store]</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  // 订阅表单数据变动</span><br><span class="line">  React.useEffect(() =&gt; &#123;</span><br><span class="line">    if (!name || !store) return;</span><br><span class="line"></span><br><span class="line">    return store.subscribe(n =&gt; &#123;</span><br><span class="line">      // 当前name的数据发生了变动，获取数据并重新渲染</span><br><span class="line">      if (n === name || n === &quot;*&quot;) &#123;</span><br><span class="line">        setValue(store.get(name));</span><br><span class="line">        setError(store.error(name));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;, [name, store]);</span><br><span class="line"></span><br><span class="line">  let child = children;</span><br><span class="line"></span><br><span class="line">  // 如果children是一个合法的组件，传入value和onChange</span><br><span class="line">  if (name &amp;&amp; store &amp;&amp; React.isValidElement(child)) &#123;</span><br><span class="line">    const childProps = &#123; value, onChange &#125;;</span><br><span class="line">    child = React.cloneElement(child, childProps);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 表单结构，具体的样式就不贴出来了</span><br><span class="line">  return (</span><br><span class="line">    &lt;div className=&quot;form&quot;&gt;</span><br><span class="line">      &lt;label className=&quot;form__label&quot;&gt;&#123;label&#125;&lt;/label&gt;</span><br><span class="line">      &lt;div className=&quot;form__content&quot;&gt;</span><br><span class="line">        &lt;div className=&quot;form__control&quot;&gt;&#123;child&#125;&lt;/div&gt;</span><br><span class="line">        &lt;div className=&quot;form__message&quot;&gt;&#123;error&#125;&lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>于是，这个表单组件就完成了，愉快地使用它吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">class App extends React.Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line"></span><br><span class="line">    this.store = new FormStore();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  onSubmit = () =&gt; &#123;</span><br><span class="line">    const data = this.store.get();</span><br><span class="line">    // ...</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;Form store=&#123;this.store&#125; onSubmit=&#123;this.onSubmit&#125;&gt;</span><br><span class="line">        &lt;Field name=&quot;username&quot;&gt;</span><br><span class="line">          &lt;input /&gt;</span><br><span class="line">        &lt;/Field&gt;</span><br><span class="line">        &lt;Field name=&quot;password&quot;&gt;</span><br><span class="line">          &lt;input type=&quot;password&quot; /&gt;</span><br><span class="line">        &lt;/Field&gt;</span><br><span class="line">        &lt;button&gt;Submit&lt;/button&gt;</span><br><span class="line">      &lt;/Form&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>这里只是把最核心的代码整理了出来，功能上当然比不上那些成百上千 star 的组件，但是用法上足够简单，并且已经能应对项目中的大多数情况。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        <div id="reward-container">
+  <div>欣赏此文？求鼓励，求支持！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/wechatpay.png" alt="虎牙 微信支付">
+        <p>微信支付</p>
+      </div>
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/alipay.png" alt="虎牙 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/React/" rel="tag"># React</a>
+            
+              <a href="/tags/Web/" rel="tag"># Web</a>
+            
+              <a href="/tags/HTML5/" rel="tag"># HTML5</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/02/22/react-h5-project-class-router/" rel="next" title="React 目录结构 多级路由 服务层设计">
+                  <i class="fa fa-chevron-left"></i> React 目录结构 多级路由 服务层设计
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/header.png"
+      alt="虎牙">
+  <p class="site-author-name" itemprop="name">虎牙</p>
+  <div class="site-description motion-element" itemprop="description">小人物,码农</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      推荐阅读
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://jackerchongchong.github.io" title="https://jackerchongchong.github.io" rel="noopener" target="_blank">Jack二虫虫</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要造轮子"><span class="nav-number">1.</span> <span class="nav-text">为什么要造轮子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎么造轮子"><span class="nav-number">2.</span> <span class="nav-text">怎么造轮子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FormStore"><span class="nav-number">3.</span> <span class="nav-text">FormStore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Form"><span class="nav-number">4.</span> <span class="nav-text">Form</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Field"><span class="nav-number">5.</span> <span class="nav-text">Field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">6.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 – <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">虎牙</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </div>
+
+    
+
+  </div>
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
